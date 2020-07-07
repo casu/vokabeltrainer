@@ -1,0 +1,186 @@
+<html>
+<head>
+<title>Exercise 01</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<style type="text/css">
+<!--
+input
+ {
+  font-family: monospace;
+  font-size: 10pt;
+ }
+-->
+</style>
+
+<script language="JavaScript">
+<!--
+
+/*
+# Dieses Skript wurde von der Programmierschule-Dortmund erstellt
+# Es darf weitergegeben und verändert werden, solang dieser Hinweis
+# enthalten bleibt.
+#
+#           Thomas & David
+#                                     www.programmierschule-dortmund.de
+#                                     info@programmierschule-dortmund.de
+#
+# Ich habe dieses kleine einfache Skript so abgeändert, dass es auf
+# allen Browser mit Javascript Unterstützung läuft und auf mobilen Geräten
+# auch vernünftig angezeigt wird.
+# 
+# Viel Spaß beim lernen
+#   Carsten
+*/
+
+var Vokabel = new Array(
+"One","Eins",
+"Two","Zwei",
+"Three","Drei",
+"Four","Vier",
+"Five","Fünf",
+"Six","Sechs",
+"Seven","Sieben",
+"Eight","Acht",
+"Nine","Neun",
+"Ten","Zehn",
+"Eleven","Elf",
+"Twelve","Zwölf",
+"What's your name?","Wie heißt du?",
+"How old are you?","Wie alt bist du",
+"Where are you from?","Woher kommst du?",
+"boy","Junge",
+"girl","Mädchen",
+
+);
+
+var a1;
+var direction = 0;
+var punkte = 0;
+var fehler = 0;
+
+function SetDir (f)
+ {
+  direction = f;
+  Einfuegen();
+ }
+
+function Einfuegen ()
+ {
+  if(Vokabel.length == 0)
+   {
+    alert("\n\nSuper! Du hast alles geschafft!! \nDeine Punktzahl: " + punkte + "\nDeine Fehlerzahl: " + fehler + "\n\nWenn Du magst, geht´s jetzt von vorne los...")
+    location.reload();
+   }
+
+  a1 = 2*Math.floor((Vokabel.length/2)*Math.random());
+
+  document.form.re.value = Vokabel.length/2;
+
+  if( direction == 0)
+   {
+    document.form.de.value = Vokabel[eval(1+a1)];
+    document.form.hd.value = Vokabel[a1];
+    document.form.en.value = "";
+   }
+
+  if( direction == 1)
+   {
+    document.form.en.value = Vokabel[a1];
+    document.form.hd.value = Vokabel[eval(1+a1)];
+    document.form.de.value = "";
+   }
+ }
+
+function Sehen ()
+ {
+  if( direction == 0)
+   {
+    document.form.en.value = Vokabel[a1];
+   }
+
+  if( direction == 1)
+   {
+    document.form.de.value = Vokabel[eval(1+a1)];
+   }
+ }
+
+function Abfragerichtig ()
+ {
+  v1 = document.form.hd.value.toLowerCase();
+  if(direction == 0)
+   {
+    v2 = document.form.en.value.toLowerCase();
+   }
+  if(direction == 1)
+   {
+    v2 = document.form.de.value.toLowerCase();
+   }
+  if( v2 == "")
+   {
+    alert("Erst auf den Button 'lösen' klicken und dann mit Button 'V' oder 'X' entscheiden, ob richtig oder falsch...")
+    return
+   }
+  punkte++;
+  document.form.pu.value = punkte;
+  document.form.de.value = "";
+  VokabelA = Vokabel.slice(0, a1);
+  VokabelB = Vokabel.slice(2+a1, Vokabel.length);
+  Vokabel = VokabelA.concat(VokabelB);
+  document.form.sehen.focus();
+  Einfuegen();
+ }
+
+function Abfragefalsch ()
+ {
+  v1 = document.form.hd.value.toLowerCase();
+  if(direction == 0)
+   {
+    v2 = document.form.en.value.toLowerCase();
+   }
+  if(direction == 1)
+   {
+    v2 = document.form.de.value.toLowerCase();
+   }
+  if( v2 == "")
+   {
+    alert("Erst auf den Button 'lösen' klicken und dann mit Button 'V' oder 'X' entscheiden, ob richtig oder falsch...")
+    return
+   }
+  fehler++;
+  document.form.fe.value = fehler;
+  punkte--;
+  document.form.pu.value = punkte;
+  document.form.sehen.focus();
+  Einfuegen();
+ }
+-->
+</script>
+
+<body onLoad="Einfuegen();" text="#000000" bgcolor="#FFA000" link="#FF0000" alink="#FF0000" vlink="#FF0000">
+<table cellspacing="0" cellpadding="1" border="1" bordercolorlight="white" bordercolordark="white" bgcolor="#FFC000" align="left" >
+<tr>
+ <td>
+  <form name="form" >
+  Deutsch > Englisch<input onFocus="SetDir('0');" checked type="Radio" name="direction" value="v"><br><br>
+  Englisch > Deutsch<input onFocus="SetDir('1');" type="Radio" name="direction" value="v"><br><br>
+  Deutsch:<br><input type="Text" name="de" value="" size="40" maxlength=""><br>
+  Englisch:<br><input type="Text" name="en" value="" size="40" maxlength=""><br><hr>
+  <center>
+  <input style="font-size:12pt; font-weight:bolder; background-color:green; color:white; font-family:Arial;" onClick="javascript:Abfragerichtig();" type="button" name="richtig" value="V">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <input style="font-size:10pt; font-family:Arial;" onClick="javascript:Sehen();" type="button" name="sehen" value="lösen">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <input style="font-size:12pt; font-weight:bolder; background-color:red; color:white; font-family:Arial;" onClick="javascript:Abfragefalsch();" type="button" name="falsch" value="X"><br>
+  </center>
+  <hr>
+  Punkte<input type="Text" name="pu" value="0" size="3" maxlength="">
+  <input type="Text" name="fe" value="0" size="3" maxlength="">
+  <input type="Text" name="re" value="0" size="3" maxlength="">
+  <input type="hidden" name="hd" value="" size="" maxlength="">
+  &nbsp;&nbsp;<a href="hilfe.html">?</a>
+  <br><center><a href="vokabeln.html">[01]&nbsp;&nbsp;Zurück zur Kapitelwahl</a></center>
+  </form>
+ </td>
+</tr>
+</table>
+</body>
+</html>
